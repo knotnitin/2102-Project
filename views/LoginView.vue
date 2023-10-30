@@ -1,0 +1,129 @@
+<template>
+    <div>
+      <div class="header">
+        <img src="images/husky.jpeg" alt="University of Connecticut" />
+        <h1>University of Connecticut</h1>
+      </div>
+      <div class="dashboard"></div>
+      <div class="Net_Id">
+        <h2>Netid Single Sign On</h2></div>
+      <div class="login-container">
+  
+        <form @submit.prevent="login">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" placeholder="NetId" required v-model="username">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Enter your password" required v-model="password">
+          <router-link to="/homescreen">
+            <button type="submit">Login</button>
+          </router-link>
+        </form>
+      </div>
+    </div>
+  </template>
+  
+  <script>
+  export default {
+    data() {
+      return {
+        username: '',
+        password: ''
+      };
+    },
+    methods: {
+      login() {
+        // Implement your login functionality here
+        // You can access this.username and this.password for user input
+      }
+    }
+  }
+  </script>
+  
+  <style scoped>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url(./images/winter.jpeg);
+    background-repeat: no-repeat;
+    background-size:cover;
+  }
+  
+  .header {
+    background: #002D62; /* Navy blue */
+    text-align: center;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .header img {
+    max-width: 70px; /* Adjust the image size as needed */
+    height: auto;
+    margin-right: 10px;
+  }
+  
+  .header h1 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 40px;
+    font-weight: bold;
+  }
+  
+  .dashboard {
+    text-align: center;
+    margin: 30px;
+  }
+  .Net_Id {
+    text-align: center;
+    width: 300px;
+    margin: 30px;
+    background: #e3efff;
+    color: #002D62;
+    padding: 30px;
+    margin: 0 auto;
+    font-size: 25px;
+    padding-bottom: 1px;
+  }
+  .login-container {
+    width: 300px;
+    margin: 0 auto; 
+    background: #e3efff; /* Lighter shade of blue */
+    color: #002D62;
+    padding: 30px;
+  }
+  
+  h2 {
+    text-align: center;
+  }
+  
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    display: block;
+  }
+  
+  button {
+    width: 175px;
+    background: #007BFF;
+    border: none;
+    color: #fff;
+    padding: 10px;
+    border-radius: 100px;
+    cursor: pointer;
+    text-align: center;
+    margin: 20px auto;
+    display: block;
+  }
+  
+  button:hover {
+    background: #0056b3;
+  }
+  </style>
+
+  

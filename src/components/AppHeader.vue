@@ -4,21 +4,13 @@
       <h1>{{ title }}</h1>
       <nav>
         <ul>
-          <li>
-            <RouterLink to="/">Home</RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/fetch">Fetch Example</RouterLink>
-          </li>
-          <li>
-            <!--
-              This RouterLink does not point to a specific path, but rather the name of a route.
-              Check out router/index.js for how this is defined
-            -->
-            <RouterLink :to="{ name: 'form' }">Form Example</RouterLink>
+          <li> <RouterLink to="/">Home</RouterLink>
           </li>
         </ul>
       </nav>
+    </div>
+    <div>
+      <img src= "images/seal.jpeg"/>
     </div>
   </header>
 </template>
@@ -36,17 +28,31 @@ defineProps({
 });
 </script>
 
-<style>
+<style scoped>
 /* give the header itself a background color, a border, and add some padding to the content */
 .app-header {
-  background-color: #fcfcfc;
-  border-bottom: 1px solid #e0e0e0;
+  background-image: linear-gradient(black, #000f31);
   padding: 1rem;
+  font-size: 20px;
+  float:none;
+  text-align: left;
+}
+.app-header img{
+  width: 90px;
+  margin-right: 15px;
 }
 
 /* make the title within the header a larger and bolder font */
 .app-header h1 {
-  font-size: 2rem;
+  font-size: 40px;
   font-weight: bold;
+  color: white;
+  text-align: left;
+}
+.list-item {
+  margin-right: 20px;
+}
+li a {
+    text-decoration: none;
 }
 </style>

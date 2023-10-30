@@ -1,6 +1,6 @@
 <template>
   <div id="app-wrapper">
-    <AppHeader title="My App" />
+    <AppHeader title="UCONN | University of Connecticut" />
     <RouterView />
   </div>
 </template>
