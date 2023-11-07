@@ -28,18 +28,39 @@
     data() {
       return {
         username: '',
-        password: ''
+        password: '',
+        dbUsername: '',
+        dbPassword: '',
+        userRole: ''
       };  
     },
     methods: {
       async checkcreds() {
-        // Implement your login functionality here
-        // You can access this.username and this.password for user input
         if(this.username !== '' && this.password !== ''){
           console.log(`testing api calls with username ${this.username}`)
           const response = await fetch(`https://d3euzpxjia.execute-api.us-east-1.amazonaws.com/test/netid?username=${this.username}`, {mode: 'no-cors'})
           console.log(response)
-          console.log(response.json)
+          // this.dbPassword = response.data.Item.password -> this does NOT work
+
+          // Down below is an example of how the password implementation should work
+          this.dpPassword = "uconn1234"
+          console.log(this.dpPassword, this.password)
+          if(this.dpPassword == this.password){
+            console.log("match!")
+            // this.userRole = response.data.Item.role -> this does NOT work, because json is empty
+            this.userRole = "student" // hard coding this to make it work
+            if(this.userRole == "professor"){
+              // Take them to professor page
+              this.$router.push('/professorhomescreen') // Will change this when professor page is done
+            }
+            else if(this.userRole == "student"){
+              // Take them to student page
+              this.$router.push('/homescreen')
+            }
+            else{
+              console.error("MISSING FIELD: role");
+            }
+          }
         }
         else{
           console.log("empty fields")
