@@ -1,7 +1,7 @@
 <template>
     <div>
       <div class="header">
-        <img src="images/husky.jpeg" alt="University of Connecticut" />
+        <img src="/images/husky.jpeg" alt="University of Connecticut" />
         <h1>University of Connecticut</h1>
       </div>
       <div class="dashboard"></div>
@@ -14,9 +14,10 @@
           <input type="text" id="username" name="username" placeholder="NetId" required v-model="username">
           <label for="password">Password</label>
           <input type="password" id="password" name="password" placeholder="Enter your password" required v-model="password">
-          <router-link to="/homescreen">
+          <!-- <router-link to="/homescreen">
             <button type="submit">Login</button>
-          </router-link>
+          </router-link> -->
+          <button type="submit" @click="checkcreds">Login</button>
         </form>
       </div>
     </div>
@@ -28,12 +29,21 @@
       return {
         username: '',
         password: ''
-      };
+      };  
     },
     methods: {
-      login() {
+      async checkcreds() {
         // Implement your login functionality here
         // You can access this.username and this.password for user input
+        if(this.username !== '' && this.password !== ''){
+          console.log(`testing api calls with username ${this.username}`)
+          const response = await fetch(`https://d3euzpxjia.execute-api.us-east-1.amazonaws.com/test/netid?username=${this.username}`, {mode: 'no-cors'})
+          console.log(response)
+          console.log(response.json)
+        }
+        else{
+          console.log("empty fields")
+        }
       }
     }
   }

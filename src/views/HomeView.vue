@@ -19,7 +19,7 @@
       <div class="overlay"></div>
 
       <div class="slides-container">
-        <img src="images/campus.jpeg" alt="">
+        <img src="/images/campus.jpeg" alt="">
       </div>
       </div>
     </body>

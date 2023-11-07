@@ -10,7 +10,7 @@
       </nav>
     </div>
     <div>
-      <img src= "images/seal.jpeg"/>
+      <img src= "/images/seal.jpeg"/>
     </div>
   </header>
 </template>
