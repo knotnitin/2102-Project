@@ -38,9 +38,6 @@
       async checkcreds() {
         if(this.username !== '' && this.password !== ''){
           console.log(`testing api calls with username ${this.username}`)
-          // const response = await fetch('https://d3euzpxjia.execute-api.us-east-1.amazonaws.com/prod/login?username=jsm10000', {
-          //   method: "GET",
-          // })
           const response = await fetch(`https://d3euzpxjia.execute-api.us-east-1.amazonaws.com/prod/login?username=${this.username}`, {
             method: "GET",
           })
@@ -61,7 +58,6 @@
             console.log("match!")
             this.userRole = responseData.body.Item.role
             console.log(this.userRole)
-            // this.userRole = "student" // hard coding this to make it work
             if(this.userRole == "professor"){
               // Take them to professor page
               this.$router.push('/professorhomescreen') // Will change this when professor page is done
