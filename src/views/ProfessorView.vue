@@ -1,27 +1,27 @@
 <template>
   <div>
     <div class="header">
-      <h1 style="color: rgb(254, 255, 255);">UCONN Student Homepage</h1>
+      <h1 style="color:rgb(254, 255, 255);">UCONN Administrator Homepage</h1>
     </div>
     <div class="dashboard">
       <router-link to="/managescreen">
-        <div class="box" @click="redirectToManageClasses">
-          <div class="box-content">
-            <h2>Manage Classes</h2>
-            <img src="images/home1.jpeg" alt="Example 1" />
-          </div>
+      <div class="box" @click="redirectToManageClasses">
+        <div class="box-content">
+          <h2>Manage Classes</h2>
+          <img src="images/home1.jpeg" alt="Example 1" />
         </div>
-      </router-link>
+      </div>
+    </router-link>
       <div class="box" @click="redirectToScheduleGrades">
         <div class="box-content">
-          <h2>View Schedule</h2>
+          <h2>Professor Schedule</h2>
           <img src="images/home2.jpeg" alt="Example 2" />
         </div>
       </div>
     </div>
     <router-link to="/">
-      <button class="logout-button" @click="logout">Logout</button>
-    </router-link>
+    <button class="logout-button" @click="logout">Logout</button>
+  </router-link>
   </div>
 </template>
 
@@ -46,13 +46,16 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
+  background-image: url(./images/campus.jpeg);
+  background-repeat: no-repeat;
+  background-size:cover;
 }
 .header {
   background: #002D62; /* Navy blue */
   color: #ffffff;
   text-align: center;
   font-size: 30px;
-  padding: 20px;
+  padding: 10px;
   font-weight: bold;
   text-decoration: none;
 }
@@ -68,7 +71,7 @@ body {
   color: #002D62;
   border: 1px solid #ccc;
   border-radius: 5px;
-  margin: 20px auto;
+  margin: 10px auto;
   cursor: pointer;
   display: block;
   text-decoration: none;
@@ -86,8 +89,8 @@ body {
   text-decoration: none;
 }
 .box img {
-  max-width: auto; /* Adjust the image size as needed */
-  height: 130px;
+  max-width: 175px; /* Adjust the image size as needed */
+  height: auto;
   margin-left: auto;
   margin-right: auto;
 }

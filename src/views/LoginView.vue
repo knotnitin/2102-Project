@@ -1,7 +1,7 @@
 <template>
     <div>
       <div class="header">
-        <img src="/images/husky.jpeg" alt="University of Connecticut" />
+        <img src="images/husky.jpeg" alt="University of Connecticut" />
         <h1>University of Connecticut</h1>
       </div>
       <div class="dashboard"></div>
@@ -14,10 +14,9 @@
           <input type="text" id="username" name="username" placeholder="NetId" required v-model="username">
           <label for="password">Password</label>
           <input type="password" id="password" name="password" placeholder="Enter your password" required v-model="password">
-          <!-- <router-link to="/homescreen">
+          <router-link to="/homescreen">
             <button type="submit">Login</button>
-          </router-link> -->
-          <button type="submit" @click="checkcreds">Login</button>
+          </router-link>
         </form>
       </div>
     </div>
@@ -44,15 +43,12 @@
           if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
           }
-
           // Parse the JSON content of the response
           const responseData = await response.json();
-
           // Log the parsed data
           console.log(responseData)
           
           this.dbPassword = responseData.body.Item.password
-
           // Down below is an example of how the password implementation should work
           if(this.dbPassword == this.password){
             console.log("match!")
@@ -82,11 +78,8 @@
   <style scoped>
   body {
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-image: url(./images/winter.jpeg);
-    background-repeat: no-repeat;
-    background-size:cover;
+    margin: 100px;
+    padding: 100px;
   }
   
   .header {
