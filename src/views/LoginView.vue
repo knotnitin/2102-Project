@@ -38,20 +38,31 @@
       async checkcreds() {
         if(this.username !== '' && this.password !== ''){
           console.log(`testing api calls with username ${this.username}`)
-          const response = await fetch(`https://d3euzpxjia.execute-api.us-east-1.amazonaws.com/test/netid?username=${this.username}`, {mode: 'no-cors'})
-          console.log(response)
-          // this.dbPassword = response.data.Item.password -> this does NOT work
-
+          const response = await fetch(`https://d3euzpxjia.execute-api.us-east-1.amazonaws.com/prod/login?username=${this.username}`, {
+            method: "GET",
+          })
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          // Parse the JSON content of the response
+          const responseData = await response.json();
+          // Log the parsed data
+          console.log(responseData)
+          
+          this.dbPassword = responseData.body.Item.password
           // Down below is an example of how the password implementation should work
-          this.dpPassword = "uconn1234"
-          console.log(this.dpPassword, this.password)
-          if(this.dpPassword == this.password){
+          if(this.dbPassword == this.password){
             console.log("match!")
-            // this.userRole = response.data.Item.role -> this does NOT work, because json is empty
-            this.userRole = "student" // hard coding this to make it work
+            this.userRole = responseData.body.Item.role
+            console.log(this.userRole)
             if(this.userRole == "professor"){
               // Take them to professor page
+<<<<<<< HEAD
               this.$router.push('/professorscreen') // Will change this when professor page is done
+=======
+              console.log("prof")
+              this.$router.push('/professorview') // Will change this when professor page is done
+>>>>>>> 40c6b3e7fa9cff0842ce9fffd5c88203d8aaa40f
             }
             else if(this.userRole == "student"){
               // Take them to student page
@@ -73,11 +84,8 @@
   <style scoped>
   body {
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-image: url(./images/winter.jpeg);
-    background-repeat: no-repeat;
-    background-size:cover;
+    margin: 100px;
+    padding: 100px;
   }
   
   .header {

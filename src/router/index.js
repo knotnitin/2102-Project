@@ -8,6 +8,7 @@ import FetchView from "../views/FetchView.vue";
 import LoginView from "../views/LoginView.vue"; 
 import HomescreenView from "../views/HomescreenView.vue";
 import ManageView from "../views/ManageView.vue";
+import ProfessorView from "../views/ProfessorView.vue";
 
 
 const router = createRouter({
@@ -54,6 +55,11 @@ const router = createRouter({
       name: "managescreen",
       component: ManageView,
     },
+    {
+      path: "/professorview",
+      name: "professorview",
+      component: ProfessorView
+    }
   ],
 });
 
