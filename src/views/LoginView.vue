@@ -1,7 +1,7 @@
 <template>
     <div>
       <div class="header">
-        <img src="images/husky.jpeg" alt="University of Connecticut" />
+        <img src="/images/husky.jpeg" alt="University of Connecticut" />
         <h1>University of Connecticut</h1>
       </div>
       <div class="dashboard"></div>

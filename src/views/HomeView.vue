@@ -20,9 +20,9 @@
       <div class="overlay"></div>
 
       <div class="slides-container">
-        <img class="slide" src="images/campus.jpeg" alt="Campus 1">
-        <img class="slide" src="images/students.jpeg" alt="Campus 3">
-        <img class="slide" src="images/winter.jpeg" alt="Campus 2">
+        <img class="slide" src="/images/campus.jpeg" alt="Campus 1">
+        <img class="slide" src="/images/students.jpeg" alt="Campus 3">
+        <img class="slide" src="/images/winter.jpeg" alt="Campus 2">
       </div>
       </div>
     </body>
