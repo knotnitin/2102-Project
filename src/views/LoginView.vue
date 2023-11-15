@@ -14,9 +14,10 @@
           <input type="text" id="username" name="username" placeholder="NetId" required v-model="username">
           <label for="password">Password</label>
           <input type="password" id="password" name="password" placeholder="Enter your password" required v-model="password">
-          <router-link to="/homescreen">
+          <!-- <router-link to="/homescreen">
             <button type="submit">Login</button>
-          </router-link>
+          </router-link> -->
+          <button type="submit" @click="checkcreds">Login</button>
         </form>
       </div>
     </div>
@@ -56,7 +57,8 @@
             console.log(this.userRole)
             if(this.userRole == "professor"){
               // Take them to professor page
-              this.$router.push('/professorhomescreen') // Will change this when professor page is done
+              console.log("prof")
+              this.$router.push('/professorview') // Will change this when professor page is done
             }
             else if(this.userRole == "student"){
               // Take them to student page
