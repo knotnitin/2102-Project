@@ -51,7 +51,7 @@
             this.userRole = "student" // hard coding this to make it work
             if(this.userRole == "professor"){
               // Take them to professor page
-              this.$router.push('/professorhomescreen') // Will change this when professor page is done
+              this.$router.push('/professorscreen') // Will change this when professor page is done
             }
             else if(this.userRole == "student"){
               // Take them to student page
