@@ -8,6 +8,8 @@ import FetchView from "../views/FetchView.vue";
 import LoginView from "../views/LoginView.vue"; 
 import HomescreenView from "../views/HomescreenView.vue";
 import ManageView from "../views/ManageView.vue";
+import ProfView from "../views/ProfView.vue";
+import ManageProfView from "../views/ManageProfView.vue"
 
 
 const router = createRouter({
@@ -19,6 +21,7 @@ const router = createRouter({
   // served by vite, which in this project is always the same directory
   // (and therefore import.meta.env.BASE_URL is '/')
   history: createWebHistory(import.meta.env.BASE_URL),
+  
 
   // each entry to this routes array has a path (what goes in the URL to access
   // this page), a name (check out components/AppHeader.vue for how this is used)
@@ -54,6 +57,19 @@ const router = createRouter({
       name: "managescreen",
       component: ManageView,
     },
+
+    {
+      path: "/professorscreen/:id",
+      name: "professorscreen",
+      component: ProfView,
+    },
+
+    {
+      path: "/professormanage/:id",
+      name: "professormanage",
+      component: ManageProfView,
+    }
+
   ],
 });
 
