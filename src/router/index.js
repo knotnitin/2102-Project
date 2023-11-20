@@ -12,6 +12,7 @@ import ProfView from "../views/ProfView.vue";
 import ManageProfView from "../views/ManageProfView.vue"
 
 
+
 const router = createRouter({
   // the history mode determines how vue router interacts with the url.
   // createWebHistory() simulates the default browser behavior of changing
@@ -57,7 +58,7 @@ const router = createRouter({
       name: "managescreen",
       component: ManageView,
     },
-
+    
     {
       path: "/professorscreen/:id",
       name: "professorscreen",

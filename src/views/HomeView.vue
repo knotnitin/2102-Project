@@ -13,13 +13,16 @@
           <i class="fas fa-search"></i>
         </div>
       </div>
+
     </header>
     <body>
       <div id="slides">
       <div class="overlay"></div>
 
       <div class="slides-container">
-        <img src="/images/campus.jpeg" alt="">
+        <img class="slide" src="/images/campus.jpeg" alt="Campus 1">
+        <img class="slide" src="/images/students.jpeg" alt="Campus 3">
+        <img class="slide" src="/images/winter.jpeg" alt="Campus 2">
       </div>
       </div>
     </body>
@@ -28,13 +31,39 @@
 
 <script>
 export default {
+  data() {
+    return {
+      currentSlideIndex: 0,
+    };
+  },
+  mounted() {
+    this.startSlideshow();
+    
+  },
   methods: {
-    openSearch() {
+    startSlideshow() {
+      setInterval(() => {
+        this.showSlide(this.currentSlideIndex);
+        this.currentSlideIndex =
+          (this.currentSlideIndex + 1) % document.querySelectorAll('.slide').length;}, 5000); // Change slides every 5 seconds (adjust as needed)
+    },
+    showSlide(index) {
+      const slides = document.querySelectorAll('.slide');
+      for (let i = 0; i < slides.length; i++) {
+        slides[i].style.display = 'none';
+      }
+      slides[index].style.display = 'block';
+    },
+    
+  },
+  //methods: {
+    //openSearch() {
       // Implement your search functionality here
       // This function could show a search bar or open a search modal.
-    }
-  }
-}
+    //}
+  //}
+};
+
 </script>
 
 <style>
@@ -77,5 +106,45 @@ a {
 .search-icon {
   cursor: pointer;
   padding: 10px 20px;
+}
+
+#slides {
+  position: relative;
+}
+
+.slides-container {
+  position: relative;
+  overflow:hidden;
+  width: 100%; 
+  height: 100%;
+  max-height: 600px; 
+}
+
+.slide {
+  display: none;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  animation: fadeIn 2s ease-out forwards; 
+  object-fit: cover;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 2;
+  }
+}
+
+.overlay {
+  /* Style your overlay as needed */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 </style>
