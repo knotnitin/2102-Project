@@ -57,7 +57,6 @@
             console.log(this.userRole)
             if(this.userRole == "professor"){
               // Take them to professor page
-              console.log("prof")
               this.$router.push('/professorscreen/:id') // Will change this when professor page is done
             }
             else if(this.userRole == "student"){
