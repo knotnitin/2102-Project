@@ -57,12 +57,8 @@
             console.log(this.userRole)
             if(this.userRole == "professor"){
               // Take them to professor page
-<<<<<<< HEAD
-              this.$router.push('/professorscreen') // Will change this when professor page is done
-=======
               console.log("prof")
-              this.$router.push('/professorview') // Will change this when professor page is done
->>>>>>> 40c6b3e7fa9cff0842ce9fffd5c88203d8aaa40f
+              this.$router.push('/professorscreen/:id') // Will change this when professor page is done
             }
             else if(this.userRole == "student"){
               // Take them to student page
