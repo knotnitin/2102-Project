@@ -6,6 +6,7 @@
     </header>
 
     <section>
+      <button @click="addClass">Add New Class</button>
       <h2>Classes I'm Teaching </h2>
       <ul id="class-list">
         
@@ -70,7 +71,11 @@
         },
 
         logout() {
-          router.push({ name: 'login', params: { id: classItem.id } });
+          this.$router.push('/')
+        },
+
+        addClass() {
+          this.$router.push('/addclass')
         }
        },
     };
@@ -86,7 +91,7 @@
       header {
         background-color: #002D62;
         color: white;
-        padding: 10px;
+        padding: 20px;
         text-align: center;
       }
   
@@ -99,6 +104,20 @@
         margin: 20px;
         color: #002D62
       }
+
+      .logout-button {
+        width: 120px;
+        padding: 5px;
+        background: #007BFF;
+        border: none;
+        color: #fff;
+        border-radius: 5px;
+        cursor: pointer;
+        display: block;
+      }
+      .logout-button:hover {
+        background: #0056b3;
+      }
   
       /* .class-list {
         list-style: none;
@@ -106,14 +125,15 @@
       } */
   
       .class-item {
-        background-color: #e3efff;
+        /* background-color: #e3efff;
         color: #002D62;
         border: 1px solid #ddd;
         margin: 10px 0;
         padding: 15px;
         display: flex;
         justify-content: space-between;
-        align-items: center;
+        align-items: center; */
+        color: rebeccapurple;
       }
 
 
