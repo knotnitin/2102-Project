@@ -10,6 +10,8 @@ import HomescreenView from "../views/HomescreenView.vue";
 import ManageView from "../views/ManageView.vue";
 import ProfView from "../views/ProfView.vue";
 import ManageProfView from "../views/ManageProfView.vue"
+import AddClass from "../views/AddClass.vue";
+import AddClassDone from "../views/AddClassDone.vue";
 
 
 
@@ -58,17 +60,25 @@ const router = createRouter({
       name: "managescreen",
       component: ManageView,
     },
-    
     {
       path: "/professorscreen/:id",
       name: "professorscreen",
       component: ProfView,
     },
-
     {
       path: "/professormanage/:id",
       name: "professormanage",
       component: ManageProfView,
+    },
+    {
+      path: "/addclass",
+      name: "addclass",
+      component: AddClass,
+    },
+    {
+      path: "/classadded",
+      name: "classadded",
+      component: AddClassDone,
     }
 
   ],
