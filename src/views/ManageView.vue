@@ -9,8 +9,10 @@
       <ul class="class-list">
         <li class="class-item" v-for="classItem in allClasses" :key="classItem.id">
           <div>
-            <h3>{{ classItem.name }}</h3>
-            <p>{{ classItem.description }}</p>
+            <h3>{{ classItem.courseid }}</h3>
+            <p>{{ classItem.professor }}</p>
+            <p>{{ classItem.days + "  " + classItem.startTime + " - " + classItem.endTime }}</p>
+            <p>{{ classItem.currentSize + " out of " + classItem.classSize + " seats filled" }}</p>
           </div>
           <button @click="addClass(classItem)">Add</button>
         </li>
@@ -53,20 +55,28 @@
   export default {
     data() {
       return {
-        allClasses: [
-          { id: 1, name: 'Mathematics', description: 'Advanced calculus and algebra.' },
-          { id: 2, name: 'History', description: 'World history from ancient times to the present.' },
-          { id: 3, name: 'Computer Science', description: 'Introduction to programming and algorithms.' },
-          // Add more class items as needed
-        ],
+        allClasses: [],
         myClasses: [
           { id: 4, name: 'Physics', description: 'Mechanics, thermodynamics, and electromagnetism.' },
           { id: 5, name: 'English Literature', description: 'Classic and contemporary literature analysis.' },
-          // Add more class items as needed
+          // Will update this later
         ],
       };  
   },
+  created() {
+        // Call the getClassData method when the component is created
+        this.getData();
+      },
     methods: {
+      async getData(){
+        const response = await fetch(`https://d3euzpxjia.execute-api.us-east-1.amazonaws.com/prod/courses`, {
+            method: "GET",
+          })
+        const responseData = await response.json();
+        const classData = responseData.body
+        console.log(classData) // responseData.body
+        this.allClasses = classData
+      },
       addClass(classItem) {
         // Logic to add a class to 'myClasses' array
         // You can implement this logic here

@@ -6,12 +6,18 @@
     </header>
 
     <section>
-      <button @click="addClass">Add New Class</button>
+      <button class="logout-button" @click="addClass">Add New Class</button>
       <h2>Classes I'm Teaching </h2>
       <ul id="class-list">
-        
+        <li class="class-item" v-for="classItem in allClasses" :key="classItem.id">
+          <div>
+            <h3>{{ classItem.courseid }}</h3>
+            <p>{{ classItem.days + "  " + classItem.startTime + " - " + classItem.endTime }}</p>
+            <p>{{ classItem.currentSize + " out of " + classItem.classSize + " seats filled" }}</p>
+          </div>
+          <button @click="manageClass(classItem)">Manage</button>
+        </li>
       </ul>
-      <button @click="manageClass(classItem)">Manage</button>
     </section>
   </div>
 </template>
@@ -24,11 +30,6 @@
     export default {
       data() {
         return {
-          // allClasses: [
-          //   { id: 1, name: 'CSE 1729', description: 'Introduction to computer programming in a structured programming language including fundamental elements of program design and analysis.'},
-          //   { id: 2, name: 'CSE 3100', description: 'Introduction to system-level programming with an emphasis on C programming, process management and small scale concurrency with multi-threaded programming.' },
-          //   // Add more class items as needed
-          // ],
           allClasses: []
         };
       },
@@ -44,27 +45,27 @@
           })
           const responseData = await response.json();
           const classData = responseData.body
-          console.log(classData) // responseData.body
-          const classList = document.getElementById("class-list") // list of all classes
+          console.log(classData)
+          this.allClasses = classData
 
-          for (var i=0; i< classData.length; i++){
-            // console.log(classData[i])
-            const liElement = document.createElement("li") // every list item that we add to ul
-            const divElement = document.createElement("div") // this will hold all the details of each class
-            const classTitle = document.createElement("h3") // class name
-            classTitle.textContent = classData[i].courseName
-            divElement.appendChild(classTitle)
-            const classTime = document.createElement("p") // holds the class days and timing
-            classTime.textContent = `${classData[i].days} ${classData[i].startTime} - ${classData[i].endTime}`
-            divElement.appendChild(classTime)
-            divElement.classList.add("class-item")
-            // now add the div to the li
-            liElement.appendChild(divElement)
-            liElement.classList.add("class-item")
-            classList.appendChild(liElement)
-          }
-
-          //return responseData.body
+          // The code below is obsolete since I figured out how to show each class. I still wanna keep it here tho
+          // const classList = document.getElementById("class-list") // list of all classes
+          // for (var i=0; i< classData.length; i++){
+          //   // console.log(classData[i])
+          //   const liElement = document.createElement("li") // every list item that we add to ul
+          //   const divElement = document.createElement("div") // this will hold all the details of each class
+          //   const classTitle = document.createElement("h3") // class name
+          //   classTitle.textContent = classData[i].courseid
+          //   divElement.appendChild(classTitle)
+          //   const classTime = document.createElement("p") // holds the class days and timing
+          //   classTime.textContent = `${classData[i].days} ${classData[i].startTime} - ${classData[i].endTime}`
+          //   divElement.appendChild(classTime)
+          //   divElement.classList.add("class-item")
+          //   // now add the div to the li
+          //   liElement.appendChild(divElement)
+          //   liElement.classList.add("class-item")
+          //   classList.appendChild(liElement)
+          // }
         },
         manageClass(classItem) {
           router.push({ name: 'professormanage', params: { id: classItem.id } });
@@ -119,21 +120,22 @@
         background: #0056b3;
       }
   
-      /* .class-list {
+      .class-list {
         list-style: none;
         padding: 0;
-      } */
+      }
+
+      /* Why this doesn't work is beyond me. It also broke the class-item thing below. */
   
       .class-item {
-        /* background-color: #e3efff;
+        background-color: #e3efff;
         color: #002D62;
         border: 1px solid #ddd;
         margin: 10px 0;
         padding: 15px;
         display: flex;
         justify-content: space-between;
-        align-items: center; */
-        color: rebeccapurple;
+        align-items: center;
       }
 
 
