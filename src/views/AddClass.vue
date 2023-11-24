@@ -71,12 +71,12 @@ export default{
             days: concatenatedDays,
             startTime: this.startTime,
             endTime: this.endTime,
-            classSize: this.classSize,
+            classSize: this.classSize.toString(),
         }
         console.log("Form submitted: ", newClass)
         const response = await fetch('https://d3euzpxjia.execute-api.us-east-1.amazonaws.com/prod/courses', {
             method: "POST",
-            body: newClass
+            body: JSON.stringify(newClass)
         })
         const responseData = await response.json();
         console.log(responseData)
