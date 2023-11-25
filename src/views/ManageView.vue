@@ -10,7 +10,7 @@
     <section>
       <h2>All Classes</h2>
       <ul class="class-list">
-        <li class="class-item" v-for="classItem in allClasses" :key="classItem.id">
+        <li class="class-item" v-for="classItem in canAdd_classes" :key="classItem.id">
           <div>
             <h3>{{ classItem.courseid }}</h3>
             <p>{{ classItem.professor }}</p>
@@ -28,11 +28,13 @@
         <li class="class-item" v-for="classItem in myClasses" :key="classItem.id">
           <a @click="removeClass(classItem)" style="cursor: pointer;">
             <div>
-              <h3>{{ classItem.name }}</h3>
-              <p>{{ classItem.description }}</p>
+              <h3>{{ classItem.courseid }}</h3>
+              <p>{{ classItem.professor }}</p>
+              <p>{{ classItem.days + "  " + classItem.startTime + " - " + classItem.endTime }}</p>
+              <p>{{ classItem.currentSize + " out of " + classItem.classSize + " seats filled" }}</p>
             </div>
           </a>
-            <button>Remove</button>
+            <button @click="removeClass(classItem)">Remove</button>
         </li>
       </ul>
     </section>
@@ -52,12 +54,14 @@
   export default {
     data() {
       return {
-        allClasses: [],
-        myClasses: [
-          { id: 4, name: 'Physics', description: 'Mechanics, thermodynamics, and electromagnetism.' },
-          { id: 5, name: 'English Literature', description: 'Classic and contemporary literature analysis.' },
-          // Will update this later
-        ],
+        allClasses: [], // Every single class
+        canAdd_classes: [], // These classes can be added by the user
+        // myClasses: [
+        //   { id: 4, name: 'Physics', description: 'Mechanics, thermodynamics, and electromagnetism.' },
+        //   { id: 5, name: 'English Literature', description: 'Classic and contemporary literature analysis.' },
+        //   // Will update this later
+        // ],
+        myClasses: [], // The classes the user is taking
       };  
   },
   created() {
@@ -72,16 +76,92 @@
         const responseData = await response.json();
         const classData = responseData.body
         console.log(classData) // responseData.body
-        this.allClasses = classData
+        this.allClasses = classData // Every single class
+
+        // Get the list of classes the student is taking
+        const response2 = await fetch(`https://d3euzpxjia.execute-api.us-east-1.amazonaws.com/prod/login?username=jhu20000`, { // Hardcoded, will fix later
+            method: "GET",
+        })
+        const responseData2 = await response2.json();
+        // console.log(responseData2)
+        const userClasses = responseData2.body.Item.coursesTaken
+        // console.log(userClasses)
+        // Call updateClasses
+        this.updateClasses(userClasses)
       },
-      addClass(classItem) {
+
+      async addClass(classItem) {
         // Logic to add a class to 'myClasses' array
-        // You can implement this logic here
+        const index = this.allClasses.indexOf(classItem)
+        const currentClass = this.allClasses[index].courseid // The class we want to move from one array to another
+        console.log("adding this class to coursesTaken ", currentClass)
+        const payload = {
+          username: "jhu20000", // Hardcoding this right now, but this is not an efficient way of doing things and needs to be changed
+          course: currentClass,
+          action: "ADD"
+        }
+        const response = await fetch('https://d3euzpxjia.execute-api.us-east-1.amazonaws.com/prod/courses', {
+          method: "PUT",
+          body: JSON.stringify(payload),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        const responseData = await response.json();
+        console.log(responseData)
+        // Update class lists IF statusCode was 200
+        if(responseData.statusCode == 200){
+          this.updateClasses(responseData.body)
+        }
       },
-      removeClass(classItem) {
+
+      async removeClass(classItem) {
         // Logic to remove a class from 'myClasses' array
-        // You can implement this logic here
+        const index = this.allClasses.indexOf(classItem)
+        const currentClass = this.allClasses[index].courseid // The class we want to move from one array to another
+        console.log("removing this class from coursesTaken ", currentClass)
+        const payload = {
+          username: "jhu20000", // Hardcoding this right now, but this is not an efficient way of doing things and needs to be changed
+          course: currentClass,
+          action: "DELETE"
+        }
+        const response = await fetch('https://d3euzpxjia.execute-api.us-east-1.amazonaws.com/prod/courses', {
+          method: "PUT",
+          body: JSON.stringify(payload),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        const responseData = await response.json();
+        console.log(responseData)
+        // Update class lists IF statusCode was 200
+        if(responseData.statusCode == 200){
+          this.updateClasses(responseData.body)
+        }
       },
+
+      updateClasses(userClassList){
+        // Updating canAdd_classes and myClasses everytime a new class is added/dropped, and also when the webpage is loaded for the first time
+        // console.log(this.allClasses)
+        // console.log(userClassList)
+        this.canAdd_classes = [] // reset
+        this.myClasses = [] // reset
+
+        // Now we filter allClasses into 2 sections: Classes the user is taking, and classes they aren't taking
+        for (var i=0; i<this.allClasses.length; i++){
+          // console.log(this.allClasses[i].courseid)
+          if(userClassList.includes(this.allClasses[i].courseid)){ // this.allClasses[i].courseid in userClassList
+            // Put this class in myClasses
+            this.myClasses.push(this.allClasses[i])
+          }
+          else{
+            this.canAdd_classes.push(this.allClasses[i])
+          }
+        }
+        // Debugging: Printing out the entirety of canAdd and myClasses
+        // console.log(this.canAdd_classes)
+        // console.log(this.myClasses)
+      }
   },
 };
   </script>
