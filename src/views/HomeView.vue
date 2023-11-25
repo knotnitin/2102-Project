@@ -27,6 +27,9 @@
       </div>
     </body>
   </div>
+    <div class="copyrightSection">
+      <p>&copy;University of Connecticut</p>
+  </div>
 </template>
 
 <script>
@@ -146,5 +149,17 @@ a {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
+}
+.copyrightSection {
+	background-color: #000;
+	color: #ffffff;
+	padding: 30px 5px;
+  text-align: center;
+  background-image: linear-gradient( #0074bf,#000E2F);
+}
+
+.copyrightSection p {
+	margin: 0;
+  color: #ffffff;
 }
 </style>
