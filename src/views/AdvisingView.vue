@@ -24,15 +24,14 @@
     },
     data() {
       return {
-        currentAdvisor: 'John Doe', // Replace with actual advisor data
+        currentAdvisor: 'John Doe', 
         scheduledAppointment: null,
       };
     },
     methods: {
       scheduleAppointment(appointmentDetails) {
         this.scheduledAppointment = appointmentDetails;
-        // You can handle the logic to save the appointment details here
-        // For demonstration purposes, we'll log the appointment details
+        
         console.log(appointmentDetails);
       },
     },
@@ -42,7 +41,7 @@
 <style scoped>
 
 .header {
-  background: #002D62; /* Navy blue */
+  background: #002D62; 
   align-items: center;
   padding: 10px;
   display: flex;
