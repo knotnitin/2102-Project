@@ -17,8 +17,8 @@
     data() {
       return {
         advisor: {
-          name: 'John Doe', // Replace with actual advisor data
-          email: 'john.doe@uconn.edu', // Replace with actual advisor email
+          name: 'John Doe', 
+          email: 'john.doe@uconn.edu', 
         },
       };
     },
@@ -35,7 +35,7 @@
   border: 1px solid #ccc;
   padding: 10px;
   border-radius: 5px;
-  width: 1400px ; /* Adjust width as needed */
+  width: 1400px ; 
   margin: 20px auto;
   align-content: center;
   background-color: aliceblue;
