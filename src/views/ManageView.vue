@@ -1,6 +1,9 @@
 <template>
   <div>
     <header>
+      <router-link to="/homescreen">
+        <i class="fas fa-arrow-left"></i>
+      </router-link>
       <h1>Manage Classes</h1>
     </header>
 
@@ -40,12 +43,6 @@
         <button @click="closeClassModal">Close</button>
       </div>
     </div>
-
-    <section class="back-button-section">
-      <router-link to="/homescreen">
-      <button class="back-button" @click="goBack">Back</button>
-    </router-link>
-    </section>
   </div>
 
 </template>
@@ -97,15 +94,20 @@
     }
 
     header {
-      background-color: #002D62;
-      color: white;
+      background: #002D62;
       padding: 10px;
       text-align: center;
+    }
+    header i{
+      color:white;
+      margin-left: 10px;
     }
 
     header h1{
       font-size: 35px;
       color: white;
+      margin-left: auto;
+      margin-right: auto;
     }
     section h2{
       font-size: 20px;
@@ -148,24 +150,6 @@
   button:hover {
     background: #0056b3;
   }
-
-.back-button {
-  width: 120px;
-  background: #007BFF;
-  border: none;
-  color: #fff;
-  padding: 10px;
-  border-radius: 100px;
-  cursor: pointer;
-  text-align: center;
-  display: block;
-  margin: 20px auto;
-  margin-top: 50px;
-}
-
-a:hover {
-  background: #d8f7ff; /* Lighter shade of blue */
-}
 
   </style>
   
