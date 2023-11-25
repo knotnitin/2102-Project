@@ -143,12 +143,11 @@
   </script>
   
   <style scoped>
-  /* CSS for vertically aligning form elements */
   .form-container {
     display: flex;
     flex-direction: column;
     align-items: left;
-    width: 300px; /* Adjust width as needed */
+    width: 300px; 
     margin: auto;
   }
 
