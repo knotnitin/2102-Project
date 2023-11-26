@@ -38,11 +38,12 @@
         </li>
       </ul>
     </section>
-    <div class="modal" v-if="showModal">
-      <div class="modal-content">
-        <h2>{{ selectedClass.name }}</h2>
-        <p>{{ selectedClass.description }}</p>
-        <button @click="closeClassModal">Close</button>
+    <div class="background" v-if="showModal">
+      <div class="modal">
+        <div>
+          <h3 class="modal-text">This class is full</h3>
+          <button @click="closeModal">Close</button>
+        </div>
       </div>
     </div>
   </div>
@@ -56,12 +57,8 @@
       return {
         allClasses: [], // Every single class
         canAdd_classes: [], // These classes can be added by the user
-        // myClasses: [
-        //   { id: 4, name: 'Physics', description: 'Mechanics, thermodynamics, and electromagnetism.' },
-        //   { id: 5, name: 'English Literature', description: 'Classic and contemporary literature analysis.' },
-        //   // Will update this later
-        // ],
         myClasses: [], // The classes the user is taking
+        showModal: false // Modal for whether a class is full or not
       };  
   },
   created() {
@@ -95,6 +92,11 @@
         const index = this.allClasses.indexOf(classItem)
         const currentClass = this.allClasses[index].courseid // The class we want to move from one array to another
         console.log("adding this class to coursesTaken ", currentClass)
+        if(parseInt(this.allClasses[index].currentSize) == parseInt(this.allClasses[index].classSize)){ // If there are no more seats left
+          console.log("ERROR: Class is full")
+          this.openModal()
+          return
+        }
         const payload = {
           username: "jhu20000", // Hardcoding this right now, but this is not an efficient way of doing things and needs to be changed
           course: currentClass,
@@ -161,6 +163,12 @@
         // Debugging: Printing out the entirety of canAdd and myClasses
         // console.log(this.canAdd_classes)
         // console.log(this.myClasses)
+      },
+      openModal(){
+        this.showModal = true
+      },
+      closeModal(){
+        this.showModal = false
       }
   },
 };
@@ -216,20 +224,44 @@
       font-size: 17px;
     }
     button {
-    width: 175px;
-    background: #007BFF;
-    border: none;
-    color: #fff;
-    padding: 10px;
-    border-radius: 100px;
-    cursor: pointer;
-    text-align: center;
-    display: block;
-  }
-  
-  button:hover {
-    background: #0056b3;
-  }
+      width: 175px;
+      background: #007BFF;
+      border: none;
+      color: #fff;
+      padding: 10px;
+      border-radius: 100px;
+      cursor: pointer;
+      text-align: center;
+      display: block;
+    }
+    
+    button:hover {
+      background: #0056b3;
+    }
+    .background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(5px);
+      z-index: 999;
+    }
+
+    .modal {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    .modal-text {
+      text-align: center;
+      margin: 10px;
+    }
 
   </style>
   
