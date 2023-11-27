@@ -8,16 +8,24 @@
         <div class="box" @click="redirectToManageClasses">
           <div class="box-content">
             <h2>Manage Classes</h2>
-            <img src="/images/home1.jpeg" alt="Example 1" />
+            <img src="images/home1.jpeg" alt="Example 1" />
           </div>
         </div>
       </router-link>
       <div class="box" @click="redirectToScheduleGrades">
         <div class="box-content">
           <h2>View Schedule</h2>
-          <img src="/images/home2.jpeg" alt="Example 2" />
+          <img src="images/home2.jpeg" alt="Example 2" />
         </div>
       </div>
+      <router-link to="/advisingcreen">
+      <div class="box" @click="redirectToScheduleGrades">
+        <div class="box-content">
+          <h2>Advising</h2>
+          <img src="images/home3.jpeg" alt="Example 2" />
+        </div>
+      </div>
+    </router-link>
     </div>
     <router-link to="/">
       <button class="logout-button" @click="logout">Logout</button>
@@ -46,20 +54,25 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
+  background-image: url(./images/campus.jpeg);
+  background-repeat: no-repeat;
+  background-size:cover;
 }
 .header {
   background: #002D62; /* Navy blue */
   color: #ffffff;
   text-align: center;
-  font-size: 30px;
-  padding: 20px;
+  font-size: 35px;
+  padding: 10px;
   font-weight: bold;
   text-decoration: none;
 }
 .dashboard {
   text-align: center;
-  margin: 20px;
-  text-decoration: none;
+  margin: 10px;
+  display: flex; /* Add this line */
+  /* Add this line to align boxes horizontally with space between */
+  justify-content: center; 
 }
 .box {
   width: 300px;
@@ -68,10 +81,8 @@ body {
   color: #002D62;
   border: 1px solid #ccc;
   border-radius: 5px;
-  margin: 20px auto;
+  margin: 20px; /* Remove 'auto' from margin */
   cursor: pointer;
-  display: block;
-  text-decoration: none;
 }
 .box:hover {
   background: #d8f7ff; /* Lighter shade of blue */
@@ -79,15 +90,13 @@ body {
 .box-content {
   padding: 20px;
   font-weight: bold;
-  text-decoration: none;
 }
 .box h2 {
-  margin: 0;
-  text-decoration: none;
+  padding-bottom: 10px;
 }
 .box img {
-  max-width: auto; /* Adjust the image size as needed */
-  height: 130px;
+  max-width: 175px; /* Adjust the image size as needed */
+  height: 125px;
   margin-left: auto;
   margin-right: auto;
 }
