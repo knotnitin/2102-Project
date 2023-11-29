@@ -22,7 +22,7 @@
       </ul>
     </section>
 
-    <section>
+    <!-- <section>
       <h2>Your Current Classes</h2>
       <ul class="class-list">
         <li class="class-item" v-for="classItem in myClasses" :key="classItem.id">
@@ -37,7 +37,7 @@
             <button @click="removeClass(classItem)">Remove</button>
         </li>
       </ul>
-    </section>
+    </section> -->
     <div class="background" v-if="showModal">
       <div class="modal">
         <div>
@@ -113,7 +113,9 @@
         console.log(responseData)
         // Update class lists IF statusCode was 200
         if(responseData.statusCode == 200){
-          this.updateClasses(responseData.body)
+          // Using getData is costlier as it always makes an API call, but it automatically updates the numbers which is cool x
+          // this.updateClasses(responseData.body)
+          this.getData()
         }
       },
 
@@ -138,7 +140,9 @@
         console.log(responseData)
         // Update class lists IF statusCode was 200
         if(responseData.statusCode == 200){
-          this.updateClasses(responseData.body)
+          // Using getData is costlier as it always makes an API call, but it automatically updates the numbers which is cool
+          // this.updateClasses(responseData.body)
+          this.getData()
         }
       },
 

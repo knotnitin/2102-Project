@@ -13,6 +13,7 @@ import ManageProfView from "../views/ManageProfView.vue"
 import AddClass from "../views/AddClass.vue";
 import AddClassDone from "../views/AddClassDone.vue";
 import AdvisingView from "../views/AdvisingView.vue";
+import ViewSchedule from "../views/ViewSchedule.vue"
 
 
 
@@ -85,6 +86,11 @@ const router = createRouter({
       path: "/advisingcreen",
       name: "advisingcreen",
       component: AdvisingView,
+    },
+    {
+      path: "/viewschedule",
+      name: "viewschedule",
+      component: ViewSchedule,
     },
   ],
 });

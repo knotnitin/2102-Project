@@ -12,12 +12,16 @@
           </div>
         </div>
       </router-link>
+
+      <router-link to="/viewschedule">
       <div class="box" @click="redirectToScheduleGrades">
         <div class="box-content">
           <h2>View Schedule</h2>
           <img src="images/home2.jpeg" alt="Example 2" />
         </div>
       </div>
+      </router-link>
+
       <router-link to="/advisingcreen">
       <div class="box" @click="redirectToScheduleGrades">
         <div class="box-content">
