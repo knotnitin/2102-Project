@@ -9,6 +9,14 @@
 
     <section>
       <h2>All Classes</h2>
+      <div class="search-bar">
+        <input
+          type="text"
+          v-model="searchQuery"
+          placeholder="Search for classes"
+        />
+        <i class="fas fa-search search-icon" @click="performSearch"></i>
+        </div>
       <ul class="class-list">
         <li class="class-item" v-for="classItem in canAdd_classes" :key="classItem.id">
           <div>
@@ -266,6 +274,18 @@
       text-align: center;
       margin: 10px;
     }
+      section input {
+  border: 1px solid #ffffff; /* Grey border */
+  padding: 7px;
+  outline:auto;
+  width: 275px; /* Set the width as needed */
+  background-color: #cfcfcf6a; /* Light blue background */
+  border-radius: 5px;
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: #333;
+  margin-top: 10px
+}
 
   </style>
   
