@@ -9,6 +9,9 @@
     </div>
 
     <section>
+      <div v-if="confirmMessage" id="confirmMessage">
+        {{ confirmMessage }}
+      </div>
       <h2>My Classes</h2>
       <ul class="class-list">
         <li class="class-item" v-for="classItem in myClasses" :key="classItem.id">
@@ -31,7 +34,8 @@ export default {
         allClasses: [], // Every single class
         canAdd_classes: [], // These classes can be added by the user
         myClasses: [], // The classes the user is taking
-        showModal: false // Modal for whether a class is full or not
+        showModal: false, // Modal for whether a class is full or not
+        confirmMessage: null,
       };  
     },
     created() {
@@ -53,16 +57,12 @@ export default {
                 method: "GET",
             })
             const responseData2 = await response2.json();
-            // console.log(responseData2)
             const userClasses = responseData2.body.Item.coursesTaken
-            // console.log(userClasses)
             // Call updateClasses
             this.updateClasses(userClasses)
         },
         updateClasses(userClassList){
             // Updating canAdd_classes and myClasses everytime a new class is added/dropped, and also when the webpage is loaded for the first time
-            // console.log(this.allClasses)
-            // console.log(userClassList)
             this.canAdd_classes = [] // reset
             this.myClasses = [] // reset
 
@@ -77,9 +77,6 @@ export default {
                 this.canAdd_classes.push(this.allClasses[i])
             }
             }
-            // Debugging: Printing out the entirety of canAdd and myClasses
-            // console.log(this.canAdd_classes)
-            // console.log(this.myClasses)
         },
         async removeClass(classItem) {
         // Logic to remove a class from 'myClasses' array
@@ -87,7 +84,7 @@ export default {
         const currentClass = this.allClasses[index].courseid // The class we want to move from one array to another
         console.log("removing this class from coursesTaken ", currentClass)
         const payload = {
-          username: "jhu20000", // Hardcoding this right now, but this is not an efficient way of doing things and needs to be changed
+          username: "jhu20000",
           course: currentClass,
           action: "DELETE"
         }
@@ -105,7 +102,20 @@ export default {
           // Using getData is costlier as it always makes an API call, but it automatically updates the numbers which is cool
           // this.updateClasses(responseData.body)
           this.getData()
+          this.confirmMessage = `Successfully removed ${currentClass}!`
+          setTimeout(() => {
+            this.confirmMessage = null; // Clear confirmation message after a few seconds
+          }, 2000);
+          setTimeout(() => {
+            this.fadeOutConfirmation(); // Add fade-out effect after a delay
+          }, 1000);
         }
+      },
+      fadeOutConfirmation() {
+        this.$el.querySelector('#confirmMessage').classList.add('fade-out');
+        setTimeout(() => {
+          this.confirmMessage = null; // Clear confirmation message after a few seconds
+        }, 1000); // Adjust the delay if needed
       },
     }
     
@@ -199,6 +209,25 @@ export default {
     .modal-text {
       text-align: center;
       margin: 10px;
+    }
+
+    #confirmMessage {
+      background-color: #28a745;
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+      margin: 10px auto;
+      border-radius: 5px;
+      max-width: 300px;
+      opacity: 1;
+      transition: opacity 1s ease-in-out;
+      position: absolute;
+      top: 195px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    #confirmMessage.fade-out {
+      opacity: 0;
     }
 
   </style>
