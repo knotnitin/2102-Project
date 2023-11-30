@@ -32,7 +32,6 @@ defineProps({
 /* give the header itself a background color, a border, and add some padding to the content */
 .app-header {
   background-image: linear-gradient(black, #000f31);
-  padding: 1rem;
   font-size: 20px;
   float:none;
   text-align: left;
