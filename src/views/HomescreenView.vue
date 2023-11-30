@@ -8,7 +8,7 @@
         <div class="box" @click="redirectToManageClasses">
           <div class="box-content">
             <h2>Manage Classes</h2>
-            <img src="images/home1.jpeg" alt="Example 1" />
+            <img src="/images/home1.jpeg" alt="Example 1" />
           </div>
         </div>
       </router-link>
@@ -17,7 +17,7 @@
       <div class="box" @click="redirectToScheduleGrades">
         <div class="box-content">
           <h2>View Schedule</h2>
-          <img src="images/home2.jpeg" alt="Example 2" />
+          <img src="/images/home2.jpeg" alt="Example 2" />
         </div>
       </div>
       </router-link>
@@ -26,7 +26,7 @@
       <div class="box" @click="redirectToScheduleGrades">
         <div class="box-content">
           <h2>Advising</h2>
-          <img src="images/home3.jpeg" alt="Example 2" />
+          <img src="/images/home3.jpeg" alt="Example 2" />
         </div>
       </div>
     </router-link>

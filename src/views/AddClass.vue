@@ -62,9 +62,7 @@ export default{
             return;
         }
 
-        // Concatenate selected days
         const concatenatedDays = this.selectedDays.join("");
-        // You can handle the form submission here
         const newClass = {
             courseName: this.className,
             professor: "John Smith",
