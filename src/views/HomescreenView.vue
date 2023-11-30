@@ -5,7 +5,7 @@
     </div>
     <div class="dashboard">
       <router-link to="/managescreen">
-        <div class="box" @click="redirectToManageClasses">
+        <div class="box">
           <div class="box-content">
             <h2>Manage Classes</h2>
             <img src="/images/home1.jpeg" alt="Example 1" />
@@ -14,7 +14,7 @@
       </router-link>
 
       <router-link to="/viewschedule">
-      <div class="box" @click="redirectToScheduleGrades">
+      <div class="box">
         <div class="box-content">
           <h2>View Schedule</h2>
           <img src="/images/home2.jpeg" alt="Example 2" />
@@ -23,7 +23,7 @@
       </router-link>
 
       <router-link to="/advisingcreen">
-      <div class="box" @click="redirectToScheduleGrades">
+      <div class="box">
         <div class="box-content">
           <h2>Advising</h2>
           <img src="/images/home3.jpeg" alt="Example 2" />
@@ -32,26 +32,10 @@
     </router-link>
     </div>
     <router-link to="/">
-      <button class="logout-button" @click="logout">Logout</button>
+      <button class="logout-button">Logout</button>
     </router-link>
   </div>
 </template>
-
-<script>
-export default {
-  methods: {
-    redirectToManageClasses() {
-      // Implement your logic to redirect to the Manage Classes page
-    },
-    redirectToScheduleGrades() {
-      // Implement your logic to redirect to the Schedule and Grades page
-    },
-    logout() {
-      // Implement your logout logic
-    },
-  },
-};
-</script>
 
 <style scoped>
 body {
@@ -63,7 +47,7 @@ body {
   background-size:cover;
 }
 .header {
-  background: #002D62; /* Navy blue */
+  background: #002D62;
   color: #ffffff;
   text-align: center;
   font-size: 35px;
@@ -74,8 +58,7 @@ body {
 .dashboard {
   text-align: center;
   margin: 10px;
-  display: flex; /* Add this line */
-  /* Add this line to align boxes horizontally with space between */
+  display: flex;
   justify-content: center; 
 }
 .box {
@@ -85,11 +68,11 @@ body {
   color: #002D62;
   border: 1px solid #ccc;
   border-radius: 5px;
-  margin: 20px; /* Remove 'auto' from margin */
+  margin: 20px;
   cursor: pointer;
 }
 .box:hover {
-  background: #d8f7ff; /* Lighter shade of blue */
+  background: #d8f7ff;
 }
 .box-content {
   padding: 20px;
@@ -99,7 +82,7 @@ body {
   padding-bottom: 10px;
 }
 .box img {
-  max-width: 175px; /* Adjust the image size as needed */
+  max-width: 175px;
   height: 125px;
   margin-left: auto;
   margin-right: auto;

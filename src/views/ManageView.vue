@@ -8,15 +8,20 @@
     </header>
 
     <section>
-      <h2>All Classes</h2>
+      <div v-if="confirmMessage" id="confirmMessage">
+        {{ confirmMessage }}
+      </div>
+      <h2>Add Classes</h2>
       <div class="search-bar">
         <input
           type="text"
           v-model="searchQuery"
           placeholder="Search for classes"
+          id="search-text"
         />
         <i class="fas fa-search search-icon" @click="performSearch"></i>
-        </div>
+      </div>
+      <div id="no-classes" v-if="noClasses">{{ messageText }}</div>
       <ul class="class-list">
         <li class="class-item" v-for="classItem in canAdd_classes" :key="classItem.id">
           <div>
@@ -66,7 +71,9 @@
         allClasses: [], // Every single class
         canAdd_classes: [], // These classes can be added by the user
         myClasses: [], // The classes the user is taking
-        showModal: false // Modal for whether a class is full or not
+        showModal: false, // Modal for whether a class is full or not
+        noClasses: false, // Toggle for whether classes were found or not
+        confirmMessage: null,
       };  
   },
   created() {
@@ -88,9 +95,7 @@
             method: "GET",
         })
         const responseData2 = await response2.json();
-        // console.log(responseData2)
         const userClasses = responseData2.body.Item.coursesTaken
-        // console.log(userClasses)
         // Call updateClasses
         this.updateClasses(userClasses)
       },
@@ -106,7 +111,7 @@
           return
         }
         const payload = {
-          username: "jhu20000", // Hardcoding this right now, but this is not an efficient way of doing things and needs to be changed
+          username: "jhu20000",
           course: currentClass,
           action: "ADD"
         }
@@ -124,46 +129,23 @@
           // Using getData is costlier as it always makes an API call, but it automatically updates the numbers which is cool x
           // this.updateClasses(responseData.body)
           this.getData()
-        }
-      },
-
-      async removeClass(classItem) {
-        // Logic to remove a class from 'myClasses' array
-        const index = this.allClasses.indexOf(classItem)
-        const currentClass = this.allClasses[index].courseid // The class we want to move from one array to another
-        console.log("removing this class from coursesTaken ", currentClass)
-        const payload = {
-          username: "jhu20000", // Hardcoding this right now, but this is not an efficient way of doing things and needs to be changed
-          course: currentClass,
-          action: "DELETE"
-        }
-        const response = await fetch('https://d3euzpxjia.execute-api.us-east-1.amazonaws.com/prod/courses', {
-          method: "PUT",
-          body: JSON.stringify(payload),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-        const responseData = await response.json();
-        console.log(responseData)
-        // Update class lists IF statusCode was 200
-        if(responseData.statusCode == 200){
-          // Using getData is costlier as it always makes an API call, but it automatically updates the numbers which is cool
-          // this.updateClasses(responseData.body)
-          this.getData()
+          this.confirmMessage = `Successfully added ${currentClass}!`
+          setTimeout(() => {
+            this.confirmMessage = null; // Clear confirmation message after a few seconds
+          }, 2000);
+          setTimeout(() => {
+            this.fadeOutConfirmation(); // Add fade-out effect after a delay
+          }, 1000);
         }
       },
 
       updateClasses(userClassList){
         // Updating canAdd_classes and myClasses everytime a new class is added/dropped, and also when the webpage is loaded for the first time
-        // console.log(this.allClasses)
-        // console.log(userClassList)
         this.canAdd_classes = [] // reset
         this.myClasses = [] // reset
 
         // Now we filter allClasses into 2 sections: Classes the user is taking, and classes they aren't taking
         for (var i=0; i<this.allClasses.length; i++){
-          // console.log(this.allClasses[i].courseid)
           if(userClassList.includes(this.allClasses[i].courseid)){ // this.allClasses[i].courseid in userClassList
             // Put this class in myClasses
             this.myClasses.push(this.allClasses[i])
@@ -172,16 +154,49 @@
             this.canAdd_classes.push(this.allClasses[i])
           }
         }
-        // Debugging: Printing out the entirety of canAdd and myClasses
-        // console.log(this.canAdd_classes)
-        // console.log(this.myClasses)
       },
       openModal(){
         this.showModal = true
       },
       closeModal(){
         this.showModal = false
-      }
+      },
+      performSearch(){
+        const searchData = document.getElementById("search-text").value
+        // console.log(searchData)
+        if(searchData == ""){
+          this.getData()
+          this.noClasses = false
+          return
+        }
+        // Now filter out the classes based on what's in searchData and move them to canAdd_classes
+        this.canAdd_classes = [] // reset
+        for(var i=0; i<this.allClasses.length; i++){
+          if(this.allClasses[i].courseid.includes(searchData)){ // this.allClasses[i].courseid in userClassList
+            console.log("added")
+            // Put this class in canAdd_Classes
+            this.canAdd_classes.push(this.allClasses[i])
+          }
+        }
+        // Now check if classes found was 0
+        if(this.canAdd_classes.length == 0){
+          this.showNoClasses(searchData)
+        }
+        else{
+          this.hideNoClasses()
+        }
+      },
+      showNoClasses(search){
+        this.noClasses = true
+        this.messageText = `No classes found with search '${search}'`
+      },
+      hideNoClasses(){
+        this.noClasses = false
+        this.messageText = "" // Get rid of text, just in case it shows up
+      },
+      fadeOutConfirmation() {
+        this.$el.querySelector('#confirmMessage').classList.add('fade-out');
+      },
   },
 };
   </script>
@@ -274,18 +289,37 @@
       text-align: center;
       margin: 10px;
     }
-      section input {
-  border: 1px solid #ffffff; /* Grey border */
-  padding: 7px;
-  outline:auto;
-  width: 275px; /* Set the width as needed */
-  background-color: #cfcfcf6a; /* Light blue background */
-  border-radius: 5px;
-  margin-bottom: 15px;
-  font-size: 16px;
-  color: #333;
-  margin-top: 10px
-}
+    section input {
+        border: 1px solid #ffffff;
+        padding: 7px;
+        outline:auto;
+        width: 275px;
+        background-color: #cfcfcf6a;
+        border-radius: 5px;
+        margin-bottom: 15px;
+        font-size: 16px;
+        color: #333;
+        margin-top: 10px
+    }
+
+    #confirmMessage {
+      background-color: #28a745;
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+      margin: 10px auto;
+      border-radius: 5px;
+      max-width: 300px;
+      opacity: 1;
+      transition: opacity 1s ease-in-out;
+      position: absolute;
+      top: 195px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    #confirmMessage.fade-out {
+      opacity: 0;
+    }
 
   </style>
   
