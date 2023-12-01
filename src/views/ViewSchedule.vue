@@ -112,10 +112,12 @@ export default {
         }
       },
       fadeOutConfirmation() {
-        this.$el.querySelector('#confirmMessage').classList.add('fade-out');
-        setTimeout(() => {
-          this.confirmMessage = null; // Clear confirmation message after a few seconds
-        }, 1000); // Adjust the delay if needed
+        console.log("start")
+        this.querySelector('#confirmMessage').classList.add('fade-out'); // qQuery doesn't work for this?
+        console.log("end")
+        // setTimeout(() => {
+        //   this.confirmMessage = null; // Clear confirmation message after a few seconds
+        // }, 1000); // Adjust the delay if needed
       },
     }
     
@@ -212,20 +214,20 @@ export default {
     }
 
     #confirmMessage {
-      background-color: #28a745;
-      color: #fff;
-      padding: 10px;
-      text-align: center;
-      margin: 10px auto;
-      border-radius: 5px;
-      max-width: 300px;
-      opacity: 1;
-      transition: opacity 1s ease-in-out;
-      position: absolute;
-      top: 195px;
-      left: 50%;
-      transform: translateX(-50%);
-    }
+        background-color: #28a745;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+        margin: 10px auto;
+        border-radius: 5px;
+        max-width: 300px;
+        opacity: 1;
+        transition: opacity 1s ease-in-out;
+        position: fixed;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 0;
+      }
     #confirmMessage.fade-out {
       opacity: 0;
     }

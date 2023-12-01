@@ -6,6 +6,9 @@
     </header>
 
     <section>
+      <div v-if="confirmMessage" id="confirmMessage">
+        {{ confirmMessage }}
+      </div>
       <button class="logout-button" @click="addClass">Add New Class</button>
       <h2>Classes I'm Teaching </h2>
       <ul id="class-list">
@@ -19,6 +22,21 @@
         </li>
       </ul>
     </section>
+    <div class="background" v-if="showModal">
+      <div class="modal">
+        <div>
+          <h3 id="modal-text">
+            Change class size: 
+            <input ref="inputSize" type="number" id="quantity" :min=minClassSize name="quantity">
+          </h3>
+          <p class="warning" v-if="showError">New class size cannot go lower than the current amount of students enrolled</p>
+          <div class="buttons">
+            <button @click="saveModal">Save</button>
+            <button @click="closeModal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
   
@@ -30,7 +48,13 @@
     export default {
       data() {
         return {
-          allClasses: []
+          allClasses: [],
+          showModal: false,
+          modalText: "",
+          minClassSize: 0,
+          currentModalClass: "",
+          showError: false,
+          confirmMessage: null,
         };
       },
       created() {
@@ -48,36 +72,59 @@
           console.log(classData)
           this.allClasses = classData
 
-          // The code below is obsolete since I figured out how to show each class. I still wanna keep it here tho
-          // const classList = document.getElementById("class-list") // list of all classes
-          // for (var i=0; i< classData.length; i++){
-          //   // console.log(classData[i])
-          //   const liElement = document.createElement("li") // every list item that we add to ul
-          //   const divElement = document.createElement("div") // this will hold all the details of each class
-          //   const classTitle = document.createElement("h3") // class name
-          //   classTitle.textContent = classData[i].courseid
-          //   divElement.appendChild(classTitle)
-          //   const classTime = document.createElement("p") // holds the class days and timing
-          //   classTime.textContent = `${classData[i].days} ${classData[i].startTime} - ${classData[i].endTime}`
-          //   divElement.appendChild(classTime)
-          //   divElement.classList.add("class-item")
-          //   // now add the div to the li
-          //   liElement.appendChild(divElement)
-          //   liElement.classList.add("class-item")
-          //   classList.appendChild(liElement)
-          // }
         },
         manageClass(classItem) {
-          router.push({ name: 'professormanage', params: { id: classItem.id } });
+          const minVal = classItem.currentSize
+          this.currentModalClass = classItem.courseid
+          this.minClassSize = classItem.currentSize;
+          this.showModal = true
         },
-
+        closeModal(){
+          this.showModal = false
+        },
+        async saveModal(){
+          const newValue = this.$refs.inputSize.value;
+          if(newValue < 0 || newValue == ''){
+            console.log("ERROR")
+            this.showError = true
+            return
+          }
+          this.showError = false
+          console.log(`New class size: ${newValue}`);
+          this.showModal = false;
+          const payload = {
+            "courseid": this.currentModalClass,
+            "classSize": newValue
+          }
+          console.log(payload)
+          const response = await fetch(`https://d3euzpxjia.execute-api.us-east-1.amazonaws.com/prod/courses/update-course`, {
+            method: 'PUT',
+            body: JSON.stringify(payload),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+          const responseData = await response.json();
+          console.log(responseData)
+          this.getClassData()
+          this.confirmMessage = `Successfully modified class data!`
+          setTimeout(() => {
+            this.confirmMessage = null; // Clear confirmation message after a few seconds
+          }, 2000);
+          setTimeout(() => {
+            this.fadeOutConfirmation(); // Add fade-out effect after a delay
+          }, 1000);
+        },
         logout() {
           this.$router.push('/')
         },
 
         addClass() {
           this.$router.push('/addclass')
-        }
+        },
+        fadeOutConfirmation() {
+          this.$el.querySelector('#confirmMessage').classList.add('fade-out');
+        },
        },
     };
 
@@ -124,8 +171,6 @@
         list-style: none;
         padding: 0;
       }
-
-      /* Why this doesn't work is beyond me. It also broke the class-item thing below. */
   
       .class-item {
         background-color: #e3efff;
@@ -138,6 +183,75 @@
         align-items: center;
       }
 
+      .background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        backdrop-filter: blur(5px);
+        z-index: 999;
+      }
+
+      .modal {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+      }
+
+      #modal-text {
+        text-align: center;
+        margin: 10px;
+      }
+
+      .buttons{
+        display: flex;
+        width: 180px;
+        justify-content: space-between;
+      }
+
+      button {
+        width: 80px;
+        background: #007BFF;
+        border: none;
+        color: #fff;
+        padding: 10px;
+        border-radius: 100px;
+        cursor: pointer;
+        text-align: center;
+        display: block;
+      }
+      
+      button:hover {
+        background: #0056b3;
+      }
+
+      .warning {
+        color: red;
+      }
+
+      #confirmMessage {
+        background-color: #28a745;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+        margin: 10px auto;
+        border-radius: 5px;
+        max-width: 300px;
+        opacity: 1;
+        transition: opacity 1s ease-in-out;
+        position: fixed;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 0;
+      }
+      #confirmMessage.fade-out {
+        opacity: 0;
+      }
 
   
     </style>
