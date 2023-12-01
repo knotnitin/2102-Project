@@ -6,6 +6,9 @@
     </header>
 
     <section>
+      <div v-if="confirmMessage" id="confirmMessage">
+        {{ confirmMessage }}
+      </div>
       <button class="logout-button" @click="addClass">Add New Class</button>
       <h2>Classes I'm Teaching </h2>
       <ul id="class-list">
@@ -24,7 +27,7 @@
         <div>
           <h3 id="modal-text">
             Change class size: 
-            <input ref="inputSize" type="number" id="quantity" :min="minClassSize" name="quantity">
+            <input ref="inputSize" type="number" id="quantity" :min=minClassSize name="quantity">
           </h3>
           <p class="warning" v-if="showError">New class size cannot go lower than the current amount of students enrolled</p>
           <div class="buttons">
@@ -51,6 +54,7 @@
           minClassSize: 0,
           currentModalClass: "",
           showError: false,
+          confirmMessage: null,
         };
       },
       created() {
@@ -103,6 +107,13 @@
           const responseData = await response.json();
           console.log(responseData)
           this.getClassData()
+          this.confirmMessage = `Successfully modified class data!`
+          setTimeout(() => {
+            this.confirmMessage = null; // Clear confirmation message after a few seconds
+          }, 2000);
+          setTimeout(() => {
+            this.fadeOutConfirmation(); // Add fade-out effect after a delay
+          }, 1000);
         },
         logout() {
           this.$router.push('/')
@@ -110,7 +121,10 @@
 
         addClass() {
           this.$router.push('/addclass')
-        }
+        },
+        fadeOutConfirmation() {
+          this.$el.querySelector('#confirmMessage').classList.add('fade-out');
+        },
        },
     };
 
@@ -220,6 +234,24 @@
         color: red;
       }
 
+      #confirmMessage {
+        background-color: #28a745;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+        margin: 10px auto;
+        border-radius: 5px;
+        max-width: 300px;
+        opacity: 1;
+        transition: opacity 1s ease-in-out;
+        position: fixed;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 0;
+      }
+      #confirmMessage.fade-out {
+        opacity: 0;
+      }
 
   
     </style>
