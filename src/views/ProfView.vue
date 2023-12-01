@@ -19,6 +19,18 @@
         </li>
       </ul>
     </section>
+    <div class="background" v-if="showModal">
+      <div class="modal">
+        <div>
+          <h3 id="modal-text" v-html="modalText"></h3>
+          <p>New class size cannot go lower than the current amount of students enrolled</p>
+          <div class="buttons">
+            <button @click="saveModal">Save</button>
+            <button @click="closeModal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
   
@@ -30,7 +42,10 @@
     export default {
       data() {
         return {
-          allClasses: []
+          allClasses: [],
+          showModal: false,
+          modalText: "",
+          newClassSize: 0,
         };
       },
       created() {
@@ -48,29 +63,22 @@
           console.log(classData)
           this.allClasses = classData
 
-          // The code below is obsolete since I figured out how to show each class. I still wanna keep it here tho
-          // const classList = document.getElementById("class-list") // list of all classes
-          // for (var i=0; i< classData.length; i++){
-          //   // console.log(classData[i])
-          //   const liElement = document.createElement("li") // every list item that we add to ul
-          //   const divElement = document.createElement("div") // this will hold all the details of each class
-          //   const classTitle = document.createElement("h3") // class name
-          //   classTitle.textContent = classData[i].courseid
-          //   divElement.appendChild(classTitle)
-          //   const classTime = document.createElement("p") // holds the class days and timing
-          //   classTime.textContent = `${classData[i].days} ${classData[i].startTime} - ${classData[i].endTime}`
-          //   divElement.appendChild(classTime)
-          //   divElement.classList.add("class-item")
-          //   // now add the div to the li
-          //   liElement.appendChild(divElement)
-          //   liElement.classList.add("class-item")
-          //   classList.appendChild(liElement)
-          // }
         },
         manageClass(classItem) {
-          router.push({ name: 'professormanage', params: { id: classItem.id } });
+          // router.push({ name: 'professormanage', params: { id: classItem.id } });
+          const minVal = classItem.currentSize
+          this.newClassSize = classItem.currentSize
+          this.modalText = `Change class size: <input type="number" id="quantity" name="quantity" min="${minVal}" placeholder="${classItem.classSize}">`
+          this.showModal = true
         },
-
+        closeModal(){
+          this.showModal = false
+        },
+        saveModal(){
+          const newValue = this.newClassSize;
+          console.log(`New class size: ${newValue}`);
+          this.showModal = false;
+        },
         logout() {
           this.$router.push('/')
         },
@@ -124,8 +132,6 @@
         list-style: none;
         padding: 0;
       }
-
-      /* Why this doesn't work is beyond me. It also broke the class-item thing below. */
   
       .class-item {
         background-color: #e3efff;
@@ -136,6 +142,53 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+      }
+
+      .background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        backdrop-filter: blur(5px);
+        z-index: 999;
+      }
+
+      .modal {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+      }
+
+      #modal-text {
+        text-align: center;
+        margin: 10px;
+      }
+
+      .buttons{
+        display: flex;
+        width: 180px;
+        justify-content: space-between;
+      }
+
+      button {
+        width: 80px;
+        background: #007BFF;
+        border: none;
+        color: #fff;
+        padding: 10px;
+        border-radius: 100px;
+        cursor: pointer;
+        text-align: center;
+        display: block;
+      }
+      
+      button:hover {
+        background: #0056b3;
       }
 
 
