@@ -22,8 +22,11 @@
     <div class="background" v-if="showModal">
       <div class="modal">
         <div>
-          <h3 id="modal-text" v-html="modalText"></h3>
-          <p>New class size cannot go lower than the current amount of students enrolled</p>
+          <h3 id="modal-text">
+            Change class size: 
+            <input ref="inputSize" type="number" id="quantity" :min="minClassSize" name="quantity">
+          </h3>
+          <p class="warning" v-if="showError">New class size cannot go lower than the current amount of students enrolled</p>
           <div class="buttons">
             <button @click="saveModal">Save</button>
             <button @click="closeModal">Close</button>
@@ -45,7 +48,9 @@
           allClasses: [],
           showModal: false,
           modalText: "",
-          newClassSize: 0,
+          minClassSize: 0,
+          currentModalClass: "",
+          showError: false,
         };
       },
       created() {
@@ -65,19 +70,39 @@
 
         },
         manageClass(classItem) {
-          // router.push({ name: 'professormanage', params: { id: classItem.id } });
           const minVal = classItem.currentSize
-          this.newClassSize = classItem.currentSize
-          this.modalText = `Change class size: <input type="number" id="quantity" name="quantity" min="${minVal}" placeholder="${classItem.classSize}">`
+          this.currentModalClass = classItem.courseid
+          this.minClassSize = classItem.currentSize;
           this.showModal = true
         },
         closeModal(){
           this.showModal = false
         },
-        saveModal(){
-          const newValue = this.newClassSize;
+        async saveModal(){
+          const newValue = this.$refs.inputSize.value;
+          if(newValue < 0 || newValue == ''){
+            console.log("ERROR")
+            this.showError = true
+            return
+          }
+          this.showError = false
           console.log(`New class size: ${newValue}`);
           this.showModal = false;
+          const payload = {
+            "courseid": this.currentModalClass,
+            "classSize": newValue
+          }
+          console.log(payload)
+          const response = await fetch(`https://d3euzpxjia.execute-api.us-east-1.amazonaws.com/prod/courses/update-course`, {
+            method: 'PUT',
+            body: JSON.stringify(payload),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+          const responseData = await response.json();
+          console.log(responseData)
+          this.getClassData()
         },
         logout() {
           this.$router.push('/')
@@ -189,6 +214,10 @@
       
       button:hover {
         background: #0056b3;
+      }
+
+      .warning {
+        color: red;
       }
 
 
