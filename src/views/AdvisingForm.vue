@@ -87,7 +87,6 @@ export default {
   computed: {
     formIsValid() {
       return (
-        this.name &&
         this.netIdValid &&
         this.emailValid &&
         this.reasonValid &&

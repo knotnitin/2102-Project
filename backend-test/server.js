@@ -22,7 +22,7 @@ const sesTransporter = nodemailer.createTransport({
 
 app.post('/create-appointment', (req, res) => {
   // Extract user input from the request body
-  const { netId, email, reason, meetingType, selectedDate, selectedTime } = req.body;
+  const {netId, email, reason, meetingType, selectedDate, selectedTime} = req.body;
 
   // Use the sesTransporter for sending appointment email using Amazon SES
   const mailOptions = {
