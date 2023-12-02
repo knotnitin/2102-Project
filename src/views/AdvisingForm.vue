@@ -107,7 +107,10 @@ export default {
           selectedDate: this.selectedDate,
           selectedTime: this.selectedTime,
         };
-
+        this.$emit('submitForm', appointmentDetails);
+          alert(
+            `Your advising appointment has been scheduled ${this.meetingType.toLowerCase()} for ${this.selectedDate} at ${this.selectedTime}`
+        );
         // Make a POST request to your backend API
         axios.post('http://localhost:3000/create-appointment', appointmentDetails)
           .then(response => {
